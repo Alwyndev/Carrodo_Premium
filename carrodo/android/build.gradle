@@ -1,0 +1,39 @@
+buildscript {
+    repositories {
+        google()
+        mavenCentral()
+    }
+    dependencies {
+      dependencies {
+        // Use a version that works with Gradle 8.1; for example:
+        classpath 'com.android.tools.build:gradle:8.0.2'
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:1.8.10"
+    }// in the individual module build.gradle files
+    }
+}
+
+// (Optional) If you still need the "allprojects" block for older module setups:
+allprojects {
+    repositories {
+        google()
+        mavenCentral()
+    }
+}
+
+// Change the root project build directory
+rootProject.buildDir = '../build'
+
+// Keep subprojects in sync with the same build directory structure
+subprojects {
+    project.buildDir = "${rootProject.buildDir}/${project.name}"
+}
+
+// Ensure the evaluation order if needed for older plugins
+subprojects {
+    project.evaluationDependsOn(':app')
+}
+
+// Define a clean task to remove all build outputs
+tasks.register("clean", Delete) {
+    delete rootProject.buildDir
+}
